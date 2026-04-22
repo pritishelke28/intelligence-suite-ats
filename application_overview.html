@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Insights | Careers.io</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --neon: #00ff99;
+      --bg-dark: #050505;
+      --card-bg: #111111;
+      --border: rgba(255, 255, 255, 0.08);
+      --glass: rgba(255, 255, 255, 0.03);
+    }
+
+    body {
+      background: radial-gradient(circle at 100% 100%, #0d2b1f 0%, var(--bg-dark) 60%);
+      color: #e0e0e0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    /* Glass Navbar */
+    .navbar {
+      background: rgba(10, 10, 10, 0.8) !important;
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--border);
+      padding: 15px 30px;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--neon) !important;
+    }
+
+    /* Main Container Card */
+    .overview-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 50px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+      margin-bottom: 50px;
+    }
+
+    .job-title {
+      font-weight: 800;
+      font-size: 2.5rem;
+      letter-spacing: -1.5px;
+      color: #fff;
+    }
+
+    .section-header {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--neon);
+      margin-top: 50px;
+      margin-bottom: 25px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .section-header::after {
+      content: "";
+      height: 1px;
+      background: var(--border);
+      flex-grow: 1;
+    }
+
+    /* Score Visualization */
+    .score-widget {
+      background: var(--glass);
+      padding: 35px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .circular-progress {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .inner-circle {
+      width: 120px;
+      height: 120px;
+      background: #0a0a0a;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      border: 1px solid var(--border);
+    }
+
+    /* Grid Details */
+    .info-box {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 16px;
+      height: 100%;
+    }
+
+    .info-label { color: #666; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+    .info-value { color: #fff; font-weight: 600; font-size: 1rem; }
+
+    /* Skill Styling */
+    .skill-badge {
+      margin: 5px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-block;
+      transition: 0.3s;
+    }
+
+    .skill-match { 
+      background: rgba(0, 255, 153, 0.1); 
+      color: var(--neon); 
+      border: 1px solid rgba(0, 255, 153, 0.2); 
+    }
+
+    .skill-gap { 
+      background: rgba(255, 75, 92, 0.05); 
+      color: #ff4b5c; 
+      border: 1px solid rgba(255, 75, 92, 0.1); 
+    }
+
+    .btn-custom {
+      padding: 16px 24px;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      transition: 0.4s;
+    }
+
+    .btn-primary-neon {
+      background: var(--neon);
+      color: #000;
+      border: none;
+    }
+
+    .btn-primary-neon:hover {
+      background: #fff;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 255, 153, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .overview-card { padding: 30px 20px; }
+      .job-title { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">CAREERS.IO</a>
+      <div class="ms-auto">
+        <a href="/user-dashboard" class="btn btn-outline-light btn-sm rounded-pill px-3">← Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-xl-10">
+        
+        <div class="overview-card">
+          
+          <div class="row g-4 align-items-start">
+            <div class="col-lg-8">
+              <h1 class="job-title mb-3">{{ app[15] }}</h1>
+              
+              <div class="d-flex align-items-center gap-3 mb-4">
+                {% if app[5] == "Shortlisted" %}
+                  <span class="badge bg-success rounded-pill px-4 py-2">Shortlisted</span>
+                {% elif app[5] == "Rejected" %}
+                  <span class="badge bg-danger rounded-pill px-4 py-2">Decision Finalized</span>
+                {% else %}
+                  <span class="badge bg-warning text-dark rounded-pill px-4 py-2">Under AI Review</span>
+                {% endif %}
+                <span class="text-secondary small fw-bold">Submitted: {{ app[14] }}</span>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <div class="info-label">Professional Summary</div>
+                    <div class="info-value">{{ app[6] }}</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <div class="info-label">Tenure Analysis</div>
+                    <div class="info-value">
+                      {{ app[7] }} — {% if app[9] == "Yes" %} Active {% else %} {{ app[8] }} {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <div class="score-widget">
+                <div class="circular-progress" style="background: conic-gradient(var(--neon) {{ app[4] }}%, #222 0deg);">
+                  <div class="inner-circle">
+                    {{ app[4] }}%
+                    <span style="font-size: 9px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">Fit Score</span>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 small text-secondary">Based on ATS Keyword Density</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header">Financial & Logistics</div>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="info-box text-center">
+                <div class="info-label">Reported CTC</div>
+                <div class="info-value">{{ app[10] }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="info-box text-center">
+                <div class="info-label">Expected Yield</div>
+                <div class="info-value" style="color: var(--neon)">{{ app[11] }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="info-box text-center">
+                <div class="info-label">Availability</div>
+                <div class="info-value">{{ app[12] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header">Keyword Intelligence</div>
+          
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <h6 class="text-white-50 small mb-3 fw-bold">Validated Competencies</h6>
+              {% if matching %}
+                {% for skill in matching %}
+                  <span class="skill-badge skill-match">✦ {{ skill }}</span>
+                {% endfor %}
+              {% else %}
+                <p class="text-muted small italic">Analysis pending keywords.</p>
+              {% endif %}
+            </div>
+
+            <div class="col-md-6">
+              <h6 class="text-white-50 small mb-3 fw-bold">Optimization Areas (Missing)</h6>
+              {% if missing %}
+                {% for skill in missing %}
+                  <span class="skill-badge skill-gap">○ {{ skill }}</span>
+                {% endfor %}
+              {% else %}
+                <p class="text-success small fw-bold">Keyword match optimized!</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="pt-5 d-flex flex-column flex-md-row gap-3">
+            <a href="/resumes/{{ app[3] }}" target="_blank" class="btn btn-primary-neon btn-custom flex-grow-1">
+              Verify Submitted Resume Data
+            </a>
+            <a href="/user-dashboard" class="btn btn-outline-secondary btn-custom">
+              Back to Dashboard
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Position | Admin Console</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --neon: #00ff99;
+      --bg-dark: #080808;
+      --card-bg: #111;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    body {
+      background: radial-gradient(circle at top left, #0d2b1f, var(--bg-dark));
+      color: #e0e0e0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 40px 0;
+    }
+
+    .edit-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 45px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+      max-width: 700px;
+      width: 95%;
+      margin: auto;
+    }
+
+    .edit-header {
+      margin-bottom: 35px;
+      border-left: 4px solid var(--neon);
+      padding-left: 20px;
+    }
+
+    .edit-header h2 {
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .edit-header p {
+      color: #666;
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--neon);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: white;
+      border-radius: 12px;
+      padding: 14px 18px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--neon);
+      color: white;
+      box-shadow: 0 0 20px rgba(0, 255, 153, 0.1);
+    }
+
+    textarea.form-control {
+      resize: none;
+      line-height: 1.6;
+    }
+
+    /* Switch styling for Immediate Joiner */
+    .form-switch .form-check-input {
+      width: 3em;
+      height: 1.5em;
+      background-color: #333;
+      border-color: #444;
+      cursor: pointer;
+    }
+
+    .form-switch .form-check-input:checked {
+      background-color: var(--neon);
+      border-color: var(--neon);
+    }
+
+    .btn-group-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    .btn-save {
+      background: var(--neon);
+      color: black;
+      border: none;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 12px;
+      flex: 2;
+      transition: 0.3s;
+      box-shadow: 0 0 15px rgba(0, 255, 153, 0.2);
+    }
+
+    .btn-save:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(0, 255, 153, 0.4);
+    }
+
+    .btn-cancel {
+      background: rgba(255, 255, 255, 0.05);
+      color: #888;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      padding: 14px 30px;
+      border-radius: 12px;
+      flex: 1;
+      text-decoration: none;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="edit-card">
+  <div class="edit-header">
+    <h2>Update Position</h2>
+    <p>Editing ID: {{ job[0] }} • Last modified recently</p>
+  </div>
+
+  <form method="POST">
+
+    <div class="mb-4">
+      <label class="form-label">Job Title</label>
+      <input type="text" name="title" class="form-control" 
+             placeholder="e.g. Senior Backend Engineer"
+             value="{{ job[1] }}" required>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label">Job Description</label>
+      <textarea name="description" class="form-control" rows="8" 
+                placeholder="Outline responsibilities and requirements..." 
+                required>{{ job[2] }}</textarea>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <label class="form-label">Experience Level</label>
+        <input type="text" name="experience_level" class="form-control" 
+               placeholder="e.g. 3-5 Years"
+               value="{{ job[3] }}" required>
+      </div>
+    </div>
+
+    <div class="form-check form-switch mb-4">
+      <input class="form-check-input" type="checkbox" role="switch"
+             id="immediateSwitch" name="immediate_joiner"
+             {% if job[5] == 'Yes' %}checked{% endif %}>
+      <label class="form-check-label ms-2 text-white-50" for="immediateSwitch">
+        Flag as Immediate Joiner Preferred
+      </label>
+    </div>
+
+    <div class="btn-group-actions">
+      <button type="submit" class="btn btn-save">Deploy Changes</button>
+      <a href="/admin/job-details/{{ job[0] }}" class="btn btn-cancel">Cancel</a>
+    </div>
+
+  </form>
+</div>
+
+</body>
+</html>

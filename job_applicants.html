@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applicant Queue | Admin Console</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --neon: #00ff99;
+      --bg-dark: #080808;
+      --card-bg: #111;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #0d2b1f, var(--bg-dark));
+      color: #e0e0e0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      padding: 40px 0;
+    }
+
+    .container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      font-weight: 800;
+      color: var(--neon);
+      letter-spacing: -1px;
+      margin-bottom: 30px;
+    }
+
+    /* Table Styling */
+    .table-responsive {
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .table {
+      margin-bottom: 0;
+      background: #111;
+      color: #e0e0e0;
+      border-color: var(--border);
+    }
+
+    .table thead th {
+      background: #1a1a1a;
+      color: #777;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      font-weight: 700;
+      padding: 18px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .table tbody td {
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .applicant-name {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* Score Badge Logic */
+    .score-badge {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .score-high { background: rgba(0, 255, 153, 0.15); color: var(--neon); border: 1px solid var(--neon); }
+    .score-mid { background: rgba(255, 193, 7, 0.15); color: #ffc107; border: 1px solid #ffc107; }
+    .score-low { background: rgba(255, 75, 92, 0.15); color: #ff4b5c; border: 1px solid #ff4b5c; }
+
+    /* Action Select */
+    .status-select {
+      background: #1a1a1a;
+      color: #ccc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .status-select:hover {
+      border-color: var(--neon);
+      color: #fff;
+    }
+
+    .btn-view {
+      background: var(--neon);
+      color: black;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 8px 16px;
+      transition: 0.3s;
+      border: none;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-view:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      padding: 40px;
+      color: #555;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Applicant Queue</h2>
+    <a href="/admin" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Dashboard Console</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle text-center">
+      <thead>
+        <tr>
+          <th class="text-start">Candidate Name</th>
+          <th>ATS Fit Score</th>
+          <th>Quick Action</th>
+          <th>Management</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for a in applicants %}
+        <tr>
+          <td class="text-start">
+            <div class="applicant-name">{{ a[1] }} {{ a[2] }}</div>
+            <small class="text-secondary">UID: #{{ a[0] }}</small>
+          </td>
+
+          <td>
+            {% set score = a[3]|int %}
+            <span class="score-badge 
+              {% if score >= 80 %}score-high
+              {% elif score >= 50 %}score-mid
+              {% else %}score-low{% endif %}">
+              {{ a[3] }}%
+            </span>
+          </td>
+
+          <td>
+            <select class="status-select" onchange="if(this.value) window.location='/update-status/{{ a[0] }}/' + this.value;">
+              <option value="">Move Status...</option>
+              <option value="Shortlisted">✅ Shortlist</option>
+              <option value="Rejected">❌ Reject</option>
+            </select>
+          </td>
+
+          <td>
+            <a href="/view-application/{{ a[0] }}" class="btn btn-view">
+              Analyze Profile
+            </a>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="4" class="empty-state text-center">
+            No active candidates found for this position.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

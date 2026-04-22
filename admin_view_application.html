@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Deep-Dive | Admin Console</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --neon: #00ff99;
+            --danger: #ff4b5c;
+            --bg-dark: #050505;
+            --card-bg: #111;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #0d2b1f, var(--bg-dark));
+            color: #e0e0e0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            padding: 50px 0;
+        }
+
+        .review-wrapper {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 35px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Vitals Sidebar */
+        .details-sidebar {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 50px 40px;
+            border-right: 1px solid var(--border);
+        }
+
+        /* Precision ATS Widget */
+        .ats-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 35px;
+        }
+
+        .circular-progress {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            transition: 0.5s;
+        }
+
+        .inner-circle {
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neon);
+            letter-spacing: -2px;
+        }
+
+        .score-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            font-weight: 700;
+        }
+
+        /* Candidate Identity */
+        .candidate-header h4 {
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #555;
+            margin-bottom: 12px;
+            font-weight: 800;
+            display: block;
+        }
+
+        .vital-text {
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Skill Chips */
+        .analysis-content { padding: 50px; }
+
+        .skill-badge {
+            padding: 10px 18px;
+            border-radius: 14px;
+            margin: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .match { background: rgba(0, 255, 153, 0.1); color: var(--neon); border: 1px solid rgba(0, 255, 153, 0.2); }
+        .missing { background: rgba(255, 75, 92, 0.1); color: var(--danger); border: 1px solid rgba(255, 75, 92, 0.2); }
+        .aux { background: rgba(255, 255, 255, 0.03); color: #888; border: 1px solid var(--border); }
+
+        /* Actions */
+        .btn-action {
+            border-radius: 16px;
+            padding: 14px 28px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-shortlist { background: var(--neon); color: #000; border: none; }
+        .btn-shortlist:hover { background: #fff; transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 255, 153, 0.3); }
+
+        .btn-reject { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+        .btn-reject:hover { background: var(--danger); color: #fff; transform: translateY(-5px); }
+
+        .btn-resume { 
+            background: rgba(255,255,255,0.05); 
+            color: #fff; 
+            border: 1px solid var(--border);
+            width: 100%;
+        }
+        .btn-resume:hover { background: #fff; color: #000; }
+
+        hr { border-color: var(--border); opacity: 1; margin: 40px 0; }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row review-wrapper g-0">
+        
+        <div class="col-lg-4 details-sidebar">
+            <div class="ats-container">
+                <div class="circular-progress" 
+                     style="background: conic-gradient(var(--neon) {{ app[4] }}%, #222 0deg);">
+                    <div class="inner-circle">
+                        <span class="score-value">{{ app[4] }}</span>
+                        <span class="score-label">Fit Score</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="candidate-header text-center mb-5">
+                <h4>{{ app[14] }}</h4>
+                <div class="badge rounded-pill bg-dark border border-secondary py-2 px-4 mt-2">
+                    Applied for: {{ app[5] }}
+                </div>
+            </div>
+
+            <div class="vitals-list">
+                <div class="mb-4">
+                    <label class="section-title">Professional Title</label>
+                    <p class="vital-text">{{ app[6] }}</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6 mb-4">
+                        <label class="section-title">Experience</label>
+                        <p class="vital-text">{{ app[7] }} - {{ app[8] }}</p>
+                    </div>
+                    <div class="col-6 mb-4">
+                        <label class="section-title">Notice Period</label>
+                        <p class="vital-text">{{ app[12] }}</p>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="section-title">Financial Expectation</label>
+                    <p class="vital-text" style="color: var(--neon);">{{ app[11] }} / Year</p>
+                </div>
+            </div>
+
+            <a href="/resumes/{{ app[3] }}" target="_blank" class="btn btn-action btn-resume mt-4">
+                Open Source PDF
+            </a>
+        </div>
+
+        <div class="col-lg-8 analysis-content">
+            <div class="d-flex justify-content-between align-items-start mb-5">
+                <div>
+                    <h2 class="fw-extrabold mb-1">Intelligence Report</h2>
+                    <p class="text-secondary small">Automated skill cross-referencing vs Job Description</p>
+                </div>
+                <a href="/admin" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Exit to Console</a>
+            </div>
+
+            <div class="mb-5">
+                <label class="section-title" style="color: var(--neon);">Verified Strengths</label>
+                <div class="d-flex flex-wrap">
+                    {% for skill in matching_skills %}
+                        <div class="skill-badge match">
+                            <span>✦</span> {{ skill }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label class="section-title" style="color: var(--danger);">Critical Skill Gaps</label>
+                <div class="d-flex flex-wrap">
+                    {% for skill in missing_skills %}
+                        <div class="skill-badge missing">
+                            <span>⚠</span> {{ skill }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label class="section-title">Auxiliary Data (Unmatched)</label>
+                <div class="d-flex flex-wrap">
+                    {% for skill in irrelevant_skills %}
+                        <div class="skill-badge aux">{{ skill }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-end gap-3 align-items-center">
+                <span class="text-secondary small me-2">Log final decision:</span>
+                <a href="/admin/update-status/{{ app[0] }}/Rejected" class="btn btn-reject btn-action">
+                    Archive (Reject)
+                </a>
+                <a href="/admin/update-status/{{ app[0] }}/Shortlisted" class="btn btn-shortlist btn-action">
+                    Finalize Shortlist
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

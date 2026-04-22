@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a Job | Recruiter Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #a855f7; /* Royal Purple */
+      --accent-hover: #9333ea;
+      --bg-dark: #09090b;
+      --card-bg: #18181b;
+      --text-muted: #a1a1aa;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #fafafa;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      overflow: hidden; /* Prevents double scrollbars */
+    }
+
+    .split-container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Left Branding Side */
+    .branding-side {
+      flex: 1;
+      background: linear-gradient(45deg, #1e1b4b, #4c1d95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      position: relative;
+    }
+
+    .branding-side::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+      opacity: 0.1;
+    }
+
+    .branding-side h1 {
+      font-weight: 800;
+      font-size: 3.5rem;
+      line-height: 1.1;
+      z-index: 1;
+    }
+
+    /* Right Form Side */
+    .form-side {
+      flex: 1.2;
+      background-color: var(--bg-dark);
+      overflow-y: auto;
+      padding: 80px 10%;
+      border-left: 1px solid #27272a;
+    }
+
+    .form-label {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-control, .form-select {
+      background-color: var(--card-bg);
+      border: 1px solid #27272a;
+      color: white;
+      padding: 14px;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      background-color: #202023;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
+      color: white;
+    }
+
+    /* Skills Tag System */
+    #skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: #2e1065;
+      color: #e9d5ff;
+      border: 1px solid #4c1d95;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .tag:hover {
+      background: #4c1d95;
+    }
+
+    #skills-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    .custom-check .form-check-input {
+      background-color: var(--card-bg);
+      border-color: #27272a;
+    }
+
+    .custom-check .form-check-input:checked {
+      background-color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 992px) {
+      .split-container { flex-direction: column; overflow-y: auto; }
+      .branding-side { padding: 40px; height: auto; }
+      .form-side { padding: 40px 20px; border-left: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="split-container">
+    <div class="branding-side">
+      <h1>Find Your <br><span style="color: var(--accent)">Next Star.</span></h1>
+      <p class="mt-4 text-white-50 fs-5">Creating a job listing has never been this seamless. Enter the details and reach thousands of qualified candidates instantly.</p>
+    </div>
+
+    <div class="form-side">
+      <div class="mb-5">
+        <h2 class="fw-bold">Job Details</h2>
+        <p class="text-secondary">Provide the core information about the role.</p>
+      </div>
+
+      <form method="POST">
+        <div class="mb-4">
+          <label class="form-label">Position Title</label>
+          <input type="text" name="title" class="form-control" placeholder="e.g. Lead Software Engineer" required>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Job Description</label>
+          <textarea name="description" class="form-control" rows="4" placeholder="Describe the daily tasks and expectations..." required></textarea>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label">Experience</label>
+            <select name="experience_level" class="form-select" required>
+              <option value="" disabled selected>Select Level</option>
+              <option>Intern</option>
+              <option>Fresher</option>
+              <option>Junior</option>
+              <option>Senior</option>
+              <option>Expert</option>
+            </select>
+          </div>
+          <div class="col-md-6 d-flex align-items-end">
+            <div class="form-check custom-check mb-2">
+              <input class="form-check-input" type="checkbox" name="immediate_joiner" id="immediateJoiner">
+              <label class="form-check-label text-white-50" for="immediateJoiner">Immediate Hiring</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <label class="form-label">Required Skills</label>
+          <div id="skills-container" class="form-control">
+            <input type="text" id="skills-input" placeholder="Type skill & press enter...">
+          </div>
+          <input type="hidden" name="skills" id="skills-hidden">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Publish Vacancy</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById("skills-input");
+    const container = document.getElementById("skills-container");
+    const hiddenInput = document.getElementById("skills-hidden");
+
+    let skills = [];
+
+    container.addEventListener("click", () => input.focus());
+
+    function updateHiddenInput() {
+      hiddenInput.value = skills.join(",");
+    }
+
+    function createTag(skill) {
+      const tag = document.createElement("div");
+      tag.className = "tag";
+      tag.innerHTML = `${skill} <span class="ms-2 opacity-50">&times;</span>`;
+
+      tag.onclick = function (e) {
+        e.stopPropagation();
+        skills = skills.filter(s => s !== skill);
+        tag.remove();
+        updateHiddenInput();
+      };
+
+      container.insertBefore(tag, input);
+    }
+
+    input.addEventListener("keydown", function (e) {
+      const value = input.value.trim().replace(",", "");
+
+      if (e.key === "Enter" || e.key === "," || (e.key === " " && value !== "")) {
+        e.preventDefault();
+        if (value !== "" && !skills.includes(value)) {
+          skills.push(value);
+          createTag(value);
+          updateHiddenInput();
+          input.value = "";
+        }
+      }
+
+      if (e.key === "Backspace" && input.value === "" && skills.length > 0) {
+        skills.pop();
+        const tags = container.querySelectorAll(".tag");
+        tags[tags.length - 1].remove();
+        updateHiddenInput();
+      }
+    });
+  </script>
+</body>
+</html>

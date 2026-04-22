@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers | Join the Team</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --neon: #00ff99;
+      --bg-dark: #050505;
+      --card-bg: #111;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #0a241a, var(--bg-dark));
+      color: #e0e0e0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    /* Modern Glass Navbar */
+    .navbar {
+      background: rgba(5, 5, 5, 0.8) !important;
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 30px;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--neon) !important;
+      font-size: 1.5rem;
+    }
+
+    /* Hero Heading */
+    .hero-section {
+      padding: 80px 0 40px;
+      text-align: center;
+    }
+
+    .hero-section h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #fff, var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    /* Job Card Styling */
+    .job-container {
+      max-width: 900px;
+      margin: 0 auto 100px;
+    }
+
+    .job-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 35px;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .job-card:hover {
+      border-color: rgba(0, 255, 153, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .job-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .job-description {
+      color: #aaa;
+      line-height: 1.7;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+      white-space: pre-wrap;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Badges */
+    .status-pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    .pill-open {
+      background: rgba(0, 255, 153, 0.1);
+      color: var(--neon);
+      border: 1px solid rgba(0, 255, 153, 0.2);
+    }
+
+    .pill-closed {
+      background: rgba(255, 75, 92, 0.1);
+      color: #ff4b5c;
+      border: 1px solid rgba(255, 75, 92, 0.2);
+    }
+
+    /* Buttons */
+    .btn-apply {
+      background: var(--neon);
+      color: #000;
+      border: none;
+      font-weight: 700;
+      padding: 12px 30px;
+      border-radius: 12px;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-apply:hover {
+      background: white;
+      color: black;
+      transform: scale(1.05);
+    }
+
+    .btn-disabled {
+      background: #222;
+      color: #555;
+      cursor: not-allowed;
+      border: 1px solid #333;
+    }
+
+    .user-greeting {
+      font-size: 0.85rem;
+      color: #888;
+      margin-right: 15px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">CAREERS.IO</a>
+
+      <div class="ms-auto d-flex align-items-center">
+        {% if session.get("user") %}
+          <span class="user-greeting d-none d-md-inline">
+            Logged in as <b>{{ session.get("first_name") }}</b>
+          </span>
+          <a href="/user-dashboard" class="btn btn-outline-light btn-sm me-2 px-3 py-2 rounded-pill">My Dashboard</a>
+          <a href="/logout" class="btn btn-danger btn-sm px-3 py-2 rounded-pill">Logout</a>
+        {% else %}
+          <a href="/user-login" class="btn btn-outline-success btn-sm me-2 px-4 py-2 rounded-pill">Login</a>
+          <a href="/login" class="btn btn-outline-warning btn-sm px-4 py-2 rounded-pill">HR Access</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero-section">
+    <div class="container">
+      <h1>Build the Future.</h1>
+      <p class="text-secondary lead">Join a team of innovators, dreamers, and doers.</p>
+    </div>
+  </div>
+
+  <div class="container job-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0">Open Roles</h3>
+      <span class="text-secondary small">Scroll to explore</span>
+    </div>
+
+    {% for job in jobs %}
+    <div class="job-card">
+      <div class="job-title">
+        {{ job[1] }}
+        {% if job[5] == 'Open' %}
+          <span class="status-pill pill-open">Live</span>
+        {% else %}
+          <span class="status-pill pill-closed">Closed</span>
+        {% endif %}
+      </div>
+
+      <div class="job-description">{{ job[2] }}</div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        {% if job[5] == 'Open' %}
+          <a href="/apply/{{ job[0] }}" class="btn-apply">Apply to this Role</a>
+        {% else %}
+          <span class="btn-apply btn-disabled">Applications Closed</span>
+        {% endif %}
+        
+        <small class="text-white-50">Full-time • Remote Friendly</small>
+      </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+      <p class="text-muted">No positions are currently listed. Check back soon!</p>
+    </div>
+    {% endfor %}
+  </div>
+
+</body>
+</html>
